@@ -1,0 +1,13 @@
+# go
+*.out
+*.test
+coverage.out
+
+# zig
+zig/.zig-cache/
+zig/zig-out/
+
+# editor
+.DS_Store
+.idea/
+.vscode/
