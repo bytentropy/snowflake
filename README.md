@@ -25,6 +25,21 @@
 - `NextBatch` writes every ID into the provided slice and stores the final shard state once.
 - The C helper exposes `fast_now_ms()` through cgo.
 
+## Performance
+
+- Current benchmark snapshot (`darwin/arm64`, Apple M1, Go `1.26.2`):
+
+| Benchmark | Result | Notes |
+| --- | ---: | --- |
+| `BenchmarkGeneratorSequential-8` | `8.238 ns/op` | Single-call steady-state path |
+| `BenchmarkGeneratorParallel-8` | `2.261 ns/op` | Parallel throughput with shard-local state |
+| `BenchmarkGeneratorBatch-8` | `537.5 ns/op` | `1024` IDs per batch, about `0.52 ns/id` |
+| `BenchmarkClockCGo-8` | `38.83 ns/op` | C clock helper via cgo |
+| `BenchmarkClockGoTimeNow-8` | `35.33 ns/op` | Baseline `time.Now().UnixMilli()` |
+
+- All current benchmarks report `0 B/op` and `0 allocs/op`.
+- Re-run locally with `go test -run '^$' -bench . -benchmem`.
+
 ## Example
 
 ```go

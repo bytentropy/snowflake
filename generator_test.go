@@ -177,7 +177,7 @@ func BenchmarkGeneratorBatch(b *testing.B) {
 	}
 }
 
-func BenchmarkClockZigCGo(b *testing.B) {
+func BenchmarkClockCGo(b *testing.B) {
 	for b.Loop() {
 		_ = clockNowMilliseconds()
 	}
