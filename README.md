@@ -1,7 +1,7 @@
 # Snowflake
 
 - Sharded Snowflake ID generator for Go.
-- Zig provides the wall-clock function used by the Go generator.
+- A small C helper provides the wall-clock function used by the Go generator.
 - The public import path is `github.com/bytentropy/snowflake`.
 
 ## API
@@ -23,7 +23,7 @@
 - `NewGenerator` masks `nodeID` to the bits left after shard indexing and panics when `GOMAXPROCS` does not fit into the 10-bit node field.
 - Each shard stores timestamp and sequence in one atomic value.
 - `NextBatch` writes every ID into the provided slice and stores the final shard state once.
-- The Zig library exposes `fast_now_ms()` and builds to `zig/zig-out/lib/libclock_zig.a`.
+- The C helper exposes `fast_now_ms()` through cgo.
 
 ## Example
 
@@ -49,6 +49,6 @@ func main() {
 
 ## Build
 
-- Build the Zig static library with `cd zig && zig build`.
+- Build the project with `go build ./...`.
 - Run tests with `GOCACHE=/tmp/gocache go test ./...` when the default Go cache is not writable.
-- Rebuild the Zig library after changes in `zig/src/clock.zig`.
+- Rebuild after changes in `clock.c`.
